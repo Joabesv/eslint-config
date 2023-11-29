@@ -1,20 +1,14 @@
-import type { FlatConfigItem, OptionsFiles, OptionsOverrides, OptionsStylistic } from '../types'
+import type { FlatConfigItem, OptionsFiles, OptionsOverrides } from '../types'
 import { GLOB_YAML } from '../globs'
 import { interopDefault } from '../utils'
 
 export async function yaml(
-  options: OptionsOverrides & OptionsStylistic & OptionsFiles = {},
+  options: OptionsOverrides & OptionsFiles = {},
 ): Promise<FlatConfigItem[]> {
   const {
     files = [GLOB_YAML],
     overrides = {},
-    stylistic = true,
   } = options
-
-  const {
-    indent = 2,
-    quotes = 'single',
-  } = typeof stylistic === 'boolean' ? {} : stylistic
 
   const [
     pluginYaml,
@@ -38,32 +32,27 @@ export async function yaml(
       },
       name: 'antfu:yaml:rules',
       rules: {
-        'style/spaced-comment': 'off',
 
         'yaml/block-mapping': 'error',
+        'yaml/block-mapping-question-indicator-newline': 'error',
         'yaml/block-sequence': 'error',
-        'yaml/no-empty-key': 'error',
-        'yaml/no-empty-sequence-entry': 'error',
-        'yaml/no-irregular-whitespace': 'error',
-        'yaml/plain-scalar': 'error',
+        'yaml/block-sequence-hyphen-indicator-newline': 'error',
+        'yaml/flow-mapping-curly-newline': 'error',
+        'yaml/flow-mapping-curly-spacing': 'error',
 
-        'yaml/vue-custom-block/no-parsing-error': 'error',
+        'yaml/flow-sequence-bracket-newline': 'error',
 
-        ...stylistic
-          ? {
-              'yaml/block-mapping-question-indicator-newline': 'error',
-              'yaml/block-sequence-hyphen-indicator-newline': 'error',
-              'yaml/flow-mapping-curly-newline': 'error',
-              'yaml/flow-mapping-curly-spacing': 'error',
-              'yaml/flow-sequence-bracket-newline': 'error',
               'yaml/flow-sequence-bracket-spacing': 'error',
-              'yaml/indent': ['error', indent === 'tab' ? 2 : indent],
+              'yaml/indent': ['error', 2],
               'yaml/key-spacing': 'error',
+              'yaml/no-empty-key': 'error',
+              'yaml/no-empty-sequence-entry': 'error',
+              'yaml/no-irregular-whitespace': 'error',
               'yaml/no-tab-indent': 'error',
-              'yaml/quotes': ['error', { avoidEscape: false, prefer: quotes }],
+              'yaml/plain-scalar': 'error',
+              'yaml/quotes': ['error', { avoidEscape: false, prefer: 'single' }],
               'yaml/spaced-comment': 'error',
-            }
-          : {},
+              'yaml/vue-custom-block/no-parsing-error': 'error',
 
         ...overrides,
       },

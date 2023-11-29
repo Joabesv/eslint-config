@@ -173,7 +173,6 @@ import {
   node,
   sortPackageJson,
   sortTsconfig,
-  stylistic,
   typescript,
   unicorn,
   vue,
@@ -189,7 +188,6 @@ export default await combine(
   imports(),
   unicorn(),
   typescript(/* Options */),
-  stylistic(),
   vue(),
   jsonc(),
   yaml(),
@@ -213,7 +211,6 @@ Since flat config requires us to explicitly provide the plugin names (instead of
 | `node/*` | `n/*` | [eslint-plugin-n](https://github.com/eslint-community/eslint-plugin-n) |
 | `yaml/*` | `yml/*` | [eslint-plugin-yml](https://github.com/ota-meshi/eslint-plugin-yml) |
 | `ts/*` | `@typescript-eslint/*` | [@typescript-eslint/eslint-plugin](https://github.com/typescript-eslint/typescript-eslint) |
-| `style/*` | `@stylistic/*` | [@stylistic/eslint-plugin](https://github.com/eslint-stylistic/eslint-stylistic) |
 | `test/*` | `vitest/*` | [eslint-plugin-vitest](https://github.com/veritem/eslint-plugin-vitest) |
 | `test/*` | `no-only-tests/*` | [eslint-plugin-no-only-tests](https://github.com/levibuzolic/eslint-plugin-no-only-tests) |
 

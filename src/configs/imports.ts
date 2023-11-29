@@ -1,11 +1,7 @@
-import type { FlatConfigItem, OptionsStylistic } from '../types'
+import type { FlatConfigItem } from '../types'
 import { pluginAntfu, pluginImport } from '../plugins'
 
-export async function imports(options: OptionsStylistic = {}): Promise<FlatConfigItem[]> {
-  const {
-    stylistic = true,
-  } = options
-
+export async function imports(): Promise<FlatConfigItem[]> {
   return [
     {
       name: 'antfu:imports',
@@ -18,18 +14,13 @@ export async function imports(options: OptionsStylistic = {}): Promise<FlatConfi
         'antfu/no-import-node-modules-by-path': 'error',
 
         'import/first': 'error',
+        'import/newline-after-import': ['error', { considerComments: true, count: 1 }],
         'import/no-duplicates': 'error',
         'import/no-mutable-exports': 'error',
         'import/no-named-default': 'error',
         'import/no-self-import': 'error',
         'import/no-webpack-loader-syntax': 'error',
         'import/order': 'error',
-
-        ...stylistic
-          ? {
-              'import/newline-after-import': ['error', { considerComments: true, count: 1 }],
-            }
-          : {},
       },
     },
   ]

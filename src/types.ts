@@ -22,7 +22,6 @@ import type { RuleOptions as JSDocRules } from '@eslint-types/jsdoc/types'
 import type { RuleOptions as TypeScriptRules } from '@eslint-types/typescript-eslint/types'
 import type { RuleOptions as UnicornRules } from '@eslint-types/unicorn/types'
 import type { Rules as AntfuRules } from 'eslint-plugin-antfu'
-import type { StylisticCustomizeOptions, UnprefixedRuleOptions as StylisticRules } from '@stylistic/eslint-plugin'
 
 export type WrapRuleConfig<T extends { [key: string]: any }> = {
   [K in keyof T]: T[K] extends RuleConfig ? T[K] : RuleConfig<T[K]>
@@ -36,7 +35,6 @@ export type Rules = WrapRuleConfig<
     RenamePrefix<VitestRules, 'vitest/', 'test/'> &
     RenamePrefix<YmlRules, 'yml/', 'yaml/'> &
     RenamePrefix<NRules, 'n/', 'node/'> &
-    Prefix<StylisticRules, 'style/'> &
     Prefix<AntfuRules, 'antfu/'> &
     ReactHooksRules &
     ReactRules &
@@ -106,12 +104,6 @@ export interface OptionsHasTypeScript {
   typescript?: boolean
 }
 
-export interface OptionsStylistic {
-  stylistic?: boolean | StylisticConfig
-}
-
-export interface StylisticConfig extends Pick<StylisticCustomizeOptions, 'indent' | 'quotes' | 'jsx' | 'semi'> {
-}
 
 export interface OptionsOverrides {
   overrides?: FlatConfigItem['rules']
@@ -121,18 +113,6 @@ export interface OptionsIsInEditor {
   isInEditor?: boolean
 }
 
-export interface OptionsUnoCSS {
-  /**
-   * Enable attributify support.
-   * @default true
-   */
-  attributify?: boolean
-  /**
-   * Enable strict mode by throwing errors about blocklisted classes.
-   * @default false
-   */
-  strict?: boolean
-}
 
 export interface OptionsConfig extends OptionsComponentExts {
   /**
@@ -157,7 +137,6 @@ export interface OptionsConfig extends OptionsComponentExts {
   /**
    * Enable JSX related rules.
    *
-   * Currently only stylistic rules are included.
    *
    * @default true
    */
@@ -199,13 +178,6 @@ export interface OptionsConfig extends OptionsComponentExts {
   markdown?: boolean
 
   /**
-   * Enable stylistic rules.
-   *
-   * @default true
-   */
-  stylistic?: boolean | StylisticConfig
-
-  /**
    * Enable react rules.
    *
    * Requires installing:
@@ -216,16 +188,6 @@ export interface OptionsConfig extends OptionsComponentExts {
    * @default false
    */
   react?: boolean
-
-  /**
-   * Enable unocss rules.
-   *
-   * Requires installing:
-   * - `@unocss/eslint-plugin`
-   *
-   * @default false
-   */
-  unocss?: boolean | OptionsUnoCSS
 
   /**
    * Control to disable some rules in editors.

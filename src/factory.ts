@@ -15,11 +15,9 @@ import {
   react,
   sortPackageJson,
   sortTsconfig,
-  stylistic,
   test,
   typescript,
   unicorn,
-  unocss,
   vue,
   yaml,
 } from './configs'
@@ -57,17 +55,8 @@ export async function antfu(
     overrides = {},
     react: enableReact = false,
     typescript: enableTypeScript = isPackageExists('typescript'),
-    unocss: enableUnoCSS = false,
     vue: enableVue = VuePackages.some(i => isPackageExists(i)),
   } = options
-
-  const stylisticOptions = options.stylistic === false
-    ? false
-    : typeof options.stylistic === 'object'
-      ? options.stylistic
-      : {}
-  if (stylisticOptions && !('jsx' in stylisticOptions))
-    stylisticOptions.jsx = options.jsx ?? true
 
   const configs: Awaitable<FlatConfigItem[]>[] = []
 
@@ -90,12 +79,8 @@ export async function antfu(
     }),
     comments(),
     node(),
-    jsdoc({
-      stylistic: stylisticOptions,
-    }),
-    imports({
-      stylistic: stylisticOptions,
-    }),
+    jsdoc(),
+    imports(),
     unicorn(),
 
     // Optional plugins (installed but not enabled by default)
@@ -115,9 +100,6 @@ export async function antfu(
     }))
   }
 
-  if (stylisticOptions)
-    configs.push(stylistic(stylisticOptions))
-
   if (options.test ?? true) {
     configs.push(test({
       isInEditor,
@@ -128,7 +110,6 @@ export async function antfu(
   if (enableVue) {
     configs.push(vue({
       overrides: overrides.vue,
-      stylistic: stylisticOptions,
       typescript: !!enableTypeScript,
     }))
   }
@@ -140,17 +121,10 @@ export async function antfu(
     }))
   }
 
-  if (enableUnoCSS) {
-    configs.push(unocss(
-      typeof enableUnoCSS === 'boolean' ? {} : enableUnoCSS,
-    ))
-  }
-
   if (options.jsonc ?? true) {
     configs.push(
       jsonc({
         overrides: overrides.jsonc,
-        stylistic: stylisticOptions,
       }),
       sortPackageJson(),
       sortTsconfig(),
@@ -160,7 +134,6 @@ export async function antfu(
   if (options.yaml ?? true) {
     configs.push(yaml({
       overrides: overrides.yaml,
-      stylistic: stylisticOptions,
     }))
   }
 

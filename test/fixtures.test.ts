@@ -23,22 +23,12 @@ runWithConfig('all', {
 runWithConfig('no-style', {
   typescript: true,
   vue: true,
-  stylistic: false,
 })
 runWithConfig(
   'tab-double-quotes',
   {
     typescript: true,
     vue: true,
-    stylistic: {
-      indent: 'tab',
-      quotes: 'double',
-    },
-  },
-  {
-    rules: {
-      'style/no-mixed-spaces-and-tabs': 'off',
-    },
   },
 )
 
