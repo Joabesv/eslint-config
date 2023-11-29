@@ -1,5 +1,5 @@
-import { interopDefault } from '../utils'
-import type { FlatConfigItem } from '../types'
+import { interopDefault } from '../../utils'
+import type { FlatConfigItem } from '../../types'
 
 export async function jsdoc(): Promise<FlatConfigItem[]> {
   return [

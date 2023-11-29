@@ -1,8 +1,8 @@
 import process from 'node:process'
-import type { FlatConfigItem, OptionsComponentExts, OptionsFiles, OptionsOverrides, OptionsTypeScriptParserOptions, OptionsTypeScriptWithTypes } from '../types'
-import { GLOB_SRC } from '../globs'
-import { pluginAntfu } from '../plugins'
-import { interopDefault, renameRules, toArray } from '../utils'
+import type { FlatConfigItem, OptionsComponentExts, OptionsFiles, OptionsOverrides, OptionsTypeScriptParserOptions, OptionsTypeScriptWithTypes } from '../../types'
+import { GLOB_SRC } from '../../globs'
+import { pluginAntfu } from '../../plugins'
+import { interopDefault, renameRules, toArray } from '../../utils'
 
 export async function typescript(
   options: OptionsFiles & OptionsComponentExts & OptionsOverrides & OptionsTypeScriptWithTypes & OptionsTypeScriptParserOptions = {},

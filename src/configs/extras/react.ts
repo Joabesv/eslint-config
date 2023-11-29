@@ -1,7 +1,7 @@
 import { isPackageExists } from 'local-pkg'
-import { ensurePackages, interopDefault } from '../utils'
-import type { FlatConfigItem, OptionsFiles, OptionsHasTypeScript, OptionsOverrides } from '../types'
-import { GLOB_JSX, GLOB_TSX } from '../globs'
+import { ensurePackages, interopDefault } from '../../utils'
+import type { FlatConfigItem, OptionsFiles, OptionsHasTypeScript, OptionsOverrides } from '../../types'
+import { GLOB_JSX, GLOB_TSX } from '../../globs'
 
 // react refresh
 const ReactRefreshAllowConstantExportPackages = [

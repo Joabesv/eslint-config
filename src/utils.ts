@@ -31,12 +31,14 @@ export async function interopDefault<T>(m: Awaitable<T>): Promise<T extends { de
 }
 
 export async function ensurePackages(packages: string[]) {
-  if (process.env.CI || process.stdout.isTTY === false)
+  if (process.env.CI || process.stdout.isTTY === false) {
     return
+  }
 
   const nonExistingPackages = packages.filter(i => !isPackageExists(i))
-  if (nonExistingPackages.length === 0)
+  if (nonExistingPackages.length === 0) {
     return
+  }
 
   const { default: prompts } = await import('prompts')
   const { result } = await prompts([
@@ -46,6 +48,7 @@ export async function ensurePackages(packages: string[]) {
       type: 'confirm',
     },
   ])
-  if (result)
+  if (result) {
     await import('@antfu/install-pkg').then(i => i.installPackage(nonExistingPackages, { dev: true }))
+  }
 }

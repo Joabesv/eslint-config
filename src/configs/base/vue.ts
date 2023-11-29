@@ -1,6 +1,6 @@
-import { interopDefault } from '../utils'
-import type { FlatConfigItem, OptionsFiles, OptionsHasTypeScript, OptionsOverrides } from '../types'
-import { GLOB_VUE } from '../globs'
+import { interopDefault } from '../../utils'
+import type { FlatConfigItem, OptionsFiles, OptionsHasTypeScript, OptionsOverrides } from '../../types'
+import { GLOB_VUE } from '../../globs'
 
 export async function vue(
   options: OptionsHasTypeScript & OptionsOverrides & OptionsFiles = {},

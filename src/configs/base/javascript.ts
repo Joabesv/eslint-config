@@ -1,7 +1,7 @@
 import globals from 'globals'
-import type { FlatConfigItem, OptionsIsInEditor, OptionsOverrides } from '../types'
-import { pluginAntfu, pluginUnusedImports } from '../plugins'
-import { GLOB_SRC, GLOB_SRC_EXT } from '../globs'
+import type { FlatConfigItem, OptionsIsInEditor, OptionsOverrides } from '../../types'
+import { pluginAntfu, pluginUnusedImports } from '../../plugins'
+import { GLOB_SRC, GLOB_SRC_EXT } from '../../globs'
 
 export async function javascript(
   options: OptionsIsInEditor & OptionsOverrides = {},

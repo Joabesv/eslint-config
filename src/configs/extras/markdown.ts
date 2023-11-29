@@ -1,6 +1,6 @@
-import type { FlatConfigItem, OptionsComponentExts, OptionsFiles, OptionsOverrides } from '../types'
-import { GLOB_MARKDOWN, GLOB_MARKDOWN_CODE } from '../globs'
-import { interopDefault } from '../utils'
+import type { FlatConfigItem, OptionsComponentExts, OptionsFiles, OptionsOverrides } from '../../types'
+import { GLOB_MARKDOWN, GLOB_MARKDOWN_CODE } from '../../globs'
+import { interopDefault } from '../../utils'
 
 export async function markdown(
   options: OptionsFiles & OptionsComponentExts & OptionsOverrides = {},
