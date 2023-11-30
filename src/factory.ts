@@ -1,7 +1,12 @@
-import process from 'node:process'
-import { existsSync } from 'node:fs'
-import { isPackageExists } from 'local-pkg'
-import type { Awaitable, FlatConfigItem, OptionsConfig, UserConfigItem } from './types'
+import process from 'node:process';
+import { existsSync } from 'node:fs';
+import { isPackageExists } from 'local-pkg';
+import type {
+  Awaitable,
+  FlatConfigItem,
+  OptionsConfig,
+  UserConfigItem,
+} from './types';
 import {
   comments,
   ignores,
@@ -20,9 +25,9 @@ import {
   typescript,
   unicorn,
   vue,
-  yaml
-} from './configs'
-import { combine, interopDefault } from './utils'
+  yaml,
+} from './configs';
+import { combine, interopDefault } from './utils';
 
 const flatConfigProps: (keyof FlatConfigItem)[] = [
   'files',
@@ -33,14 +38,9 @@ const flatConfigProps: (keyof FlatConfigItem)[] = [
   'plugins',
   'rules',
   'settings',
-]
+];
 
-const VuePackages = [
-  'vue',
-  'nuxt',
-  'vitepress',
-  '@slidev/cli',
-]
+const VuePackages = ['vue', 'nuxt', 'vitepress', '@slidev/cli'];
 
 /**
  * Construct an array of ESLint flat config items.
@@ -52,22 +52,32 @@ export async function jsvEslintConfig(
   const {
     componentExts = [],
     gitignore: enableGitignore = true,
-    isInEditor = !!((process.env.VSCODE_PID || process.env.JETBRAINS_IDE) && !process.env.CI),
+    isInEditor = !!(
+      (process.env.VSCODE_PID || process.env.JETBRAINS_IDE) &&
+      !process.env.CI
+    ),
     overrides = {},
     react: enableReact = false,
     typescript: enableTypeScript = isPackageExists('typescript'),
-    vue: enableVue = VuePackages.some(i => isPackageExists(i)),
-  } = options
+    vue: enableVue = VuePackages.some((i) => isPackageExists(i)),
+  } = options;
 
-  const configs: Awaitable<FlatConfigItem[]>[] = []
+  const configs: Awaitable<FlatConfigItem[]>[] = [];
 
   if (enableGitignore) {
     if (typeof enableGitignore !== 'boolean') {
-      configs.push(interopDefault(import('eslint-config-flat-gitignore')).then(r => [r(enableGitignore)]))
-    }
-    else {
+      configs.push(
+        interopDefault(import('eslint-config-flat-gitignore')).then((r) => [
+          r(enableGitignore),
+        ]),
+      );
+    } else {
       if (existsSync('.gitignore'))
-        configs.push(interopDefault(import('eslint-config-flat-gitignore')).then(r => [r()]))
+        configs.push(
+          interopDefault(import('eslint-config-flat-gitignore')).then((r) => [
+            r(),
+          ]),
+        );
     }
   }
 
@@ -87,40 +97,45 @@ export async function jsvEslintConfig(
     // Optional plugins (installed but not enabled by default)
     perfectionist(),
     prettier(),
-  )
+  );
 
-  if (enableVue)
-    componentExts.push('vue')
+  if (enableVue) componentExts.push('vue');
 
   if (enableTypeScript) {
-    configs.push(typescript({
-      ...typeof enableTypeScript !== 'boolean'
-        ? enableTypeScript
-        : {},
-      componentExts,
-      overrides: overrides.typescript,
-    }))
+    configs.push(
+      typescript({
+        ...(typeof enableTypeScript !== 'boolean' ? enableTypeScript : {}),
+        componentExts,
+        overrides: overrides.typescript,
+      }),
+    );
   }
 
   if (options.test ?? true) {
-    configs.push(test({
-      isInEditor,
-      overrides: overrides.test,
-    }))
+    configs.push(
+      test({
+        isInEditor,
+        overrides: overrides.test,
+      }),
+    );
   }
 
   if (enableVue) {
-    configs.push(vue({
-      overrides: overrides.vue,
-      typescript: !!enableTypeScript,
-    }))
+    configs.push(
+      vue({
+        overrides: overrides.vue,
+        typescript: !!enableTypeScript,
+      }),
+    );
   }
 
   if (enableReact) {
-    configs.push(react({
-      overrides: overrides.react,
-      typescript: !!enableTypeScript,
-    }))
+    configs.push(
+      react({
+        overrides: overrides.react,
+        typescript: !!enableTypeScript,
+      }),
+    );
   }
 
   if (options.jsonc ?? true) {
@@ -130,42 +145,43 @@ export async function jsvEslintConfig(
       }),
       sortPackageJson(),
       sortTsconfig(),
-    )
+    );
   }
 
   if (options.yaml ?? true) {
-    configs.push(yaml({
-      overrides: overrides.yaml,
-    }))
+    configs.push(
+      yaml({
+        overrides: overrides.yaml,
+      }),
+    );
   }
 
   if (options.markdown ?? true) {
-    configs.push(markdown({
-      componentExts,
-      overrides: overrides.markdown,
-    }))
+    configs.push(
+      markdown({
+        componentExts,
+        overrides: overrides.markdown,
+      }),
+    );
   }
 
-  if(options.prettier ?? true) {
-    configs.push(prettier({
-      overrides: overrides.prettier,
-    }))
+  if (options.prettier ?? true) {
+    configs.push(
+      prettier({
+        overrides: overrides.prettier,
+      }),
+    );
   }
 
   // User can optionally pass a flat config item to the first argument
   // We pick the known keys as ESLint would do schema validation
   const fusedConfig = flatConfigProps.reduce((acc, key) => {
-    if (key in options)
-      acc[key] = options[key] as any
-    return acc
-  }, {} as FlatConfigItem)
-  if (Object.keys(fusedConfig).length)
-    configs.push([fusedConfig])
+    if (key in options) acc[key] = options[key] as any;
+    return acc;
+  }, {} as FlatConfigItem);
+  if (Object.keys(fusedConfig).length) configs.push([fusedConfig]);
 
-  const merged = combine(
-    ...configs,
-    ...userConfigs,
-  )
+  const merged = combine(...configs, ...userConfigs);
 
-  return merged
+  return merged;
 }

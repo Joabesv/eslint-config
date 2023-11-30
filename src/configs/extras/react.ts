@@ -1,12 +1,15 @@
-import { isPackageExists } from 'local-pkg'
-import { ensurePackages, interopDefault } from '../../utils'
-import type { FlatConfigItem, OptionsFiles, OptionsHasTypeScript, OptionsOverrides } from '../../types'
-import { GLOB_JSX, GLOB_TSX } from '../../globs'
+import { isPackageExists } from 'local-pkg';
+import { ensurePackages, interopDefault } from '../../utils';
+import type {
+  FlatConfigItem,
+  OptionsFiles,
+  OptionsHasTypeScript,
+  OptionsOverrides,
+} from '../../types';
+import { GLOB_JSX, GLOB_TSX } from '../../globs';
 
 // react refresh
-const ReactRefreshAllowConstantExportPackages = [
-  'vite',
-]
+const ReactRefreshAllowConstantExportPackages = ['vite'];
 
 export async function react(
   options: OptionsHasTypeScript & OptionsOverrides & OptionsFiles = {},
@@ -15,33 +18,31 @@ export async function react(
     files = [GLOB_JSX, GLOB_TSX],
     overrides = {},
     typescript = true,
-  } = options
+  } = options;
 
   await ensurePackages([
     'eslint-plugin-react',
     'eslint-plugin-react-hooks',
     'eslint-plugin-react-refresh',
-  ])
+  ]);
 
-  const [
-    pluginReact,
-    pluginReactHooks,
-    pluginReactRefresh,
-  ] = await Promise.all([
-    interopDefault(import('eslint-plugin-react')),
-    interopDefault(import('eslint-plugin-react-hooks')),
-    interopDefault(import('eslint-plugin-react-refresh')),
-  ] as const)
+  const [pluginReact, pluginReactHooks, pluginReactRefresh] = await Promise.all(
+    [
+      interopDefault(import('eslint-plugin-react')),
+      interopDefault(import('eslint-plugin-react-hooks')),
+      interopDefault(import('eslint-plugin-react-refresh')),
+    ] as const,
+  );
 
   const isAllowConstantExport = ReactRefreshAllowConstantExportPackages.some(
-    i => isPackageExists(i),
-  )
+    (i) => isPackageExists(i),
+  );
 
   return [
     {
       name: 'joabesv:react:setup',
       plugins: {
-        'react': pluginReact,
+        react: pluginReact,
         'react-hooks': pluginReactHooks,
         'react-refresh': pluginReactRefresh,
       },
@@ -91,16 +92,16 @@ export async function react(
         'react/react-in-jsx-scope': 'off',
         'react/require-render-return': 'error',
 
-        ...typescript
+        ...(typescript
           ? {
               'react/jsx-no-undef': 'off',
               'react/prop-type': 'off',
             }
-          : {},
+          : {}),
 
         // overrides
         ...overrides,
       },
     },
-  ]
+  ];
 }

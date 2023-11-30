@@ -11,7 +11,7 @@
     "source.fixAll.eslint": "explicit",
     "source.organizeImports": "never"
   },
-  
+
   // Enable eslint for all supported languages
   "eslint.validate": [
     "javascript",

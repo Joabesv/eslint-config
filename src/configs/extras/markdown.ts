@@ -1,6 +1,11 @@
-import type { FlatConfigItem, OptionsComponentExts, OptionsFiles, OptionsOverrides } from '../../types'
-import { GLOB_MARKDOWN, GLOB_MARKDOWN_CODE } from '../../globs'
-import { interopDefault } from '../../utils'
+import type {
+  FlatConfigItem,
+  OptionsComponentExts,
+  OptionsFiles,
+  OptionsOverrides,
+} from '../../types';
+import { GLOB_MARKDOWN, GLOB_MARKDOWN_CODE } from '../../globs';
+import { interopDefault } from '../../utils';
 
 export async function markdown(
   options: OptionsFiles & OptionsComponentExts & OptionsOverrides = {},
@@ -9,7 +14,7 @@ export async function markdown(
     componentExts = [],
     files = [GLOB_MARKDOWN],
     overrides = {},
-  } = options
+  } = options;
 
   return [
     {
@@ -27,7 +32,7 @@ export async function markdown(
     {
       files: [
         GLOB_MARKDOWN_CODE,
-        ...componentExts.map(ext => `${GLOB_MARKDOWN}/**/*.${ext}`),
+        ...componentExts.map((ext) => `${GLOB_MARKDOWN}/**/*.${ext}`),
       ],
       languageOptions: {
         parserOptions: {
@@ -89,5 +94,5 @@ export async function markdown(
         ...overrides,
       },
     },
-  ]
+  ];
 }

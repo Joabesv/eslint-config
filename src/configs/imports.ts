@@ -1,5 +1,5 @@
-import type { FlatConfigItem } from '../types'
-import { pluginAntfu, pluginImport } from '../plugins'
+import type { FlatConfigItem } from '../types';
+import { pluginAntfu, pluginImport } from '../plugins';
 
 export async function imports(): Promise<FlatConfigItem[]> {
   return [
@@ -14,7 +14,10 @@ export async function imports(): Promise<FlatConfigItem[]> {
         'antfu/no-import-node-modules-by-path': 'error',
 
         'import/first': 'error',
-        'import/newline-after-import': ['error', { considerComments: true, count: 1 }],
+        'import/newline-after-import': [
+          'error',
+          { considerComments: true, count: 1 },
+        ],
         'import/no-duplicates': 'error',
         'import/no-mutable-exports': 'error',
         'import/no-named-default': 'error',
@@ -23,5 +26,5 @@ export async function imports(): Promise<FlatConfigItem[]> {
         'import/order': 'error',
       },
     },
-  ]
+  ];
 }

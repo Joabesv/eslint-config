@@ -1,5 +1,5 @@
-import type { FlatConfigItem } from '../../types'
-import { pluginNode } from '../../plugins'
+import type { FlatConfigItem } from '../../types';
+import { pluginNode } from '../../plugins';
 
 export async function node(): Promise<FlatConfigItem[]> {
   return [
@@ -19,5 +19,5 @@ export async function node(): Promise<FlatConfigItem[]> {
         'node/process-exit-as-throw': 'error',
       },
     },
-  ]
+  ];
 }

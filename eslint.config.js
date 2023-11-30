@@ -1,14 +1,11 @@
 // @ts-check
-import { jsvEslintConfig } from './dist/index.js'
+import { jsvEslintConfig } from './dist/index.js';
 
 export default jsvEslintConfig(
   {
     vue: true,
     typescript: true,
-    ignores: [
-      'fixtures',
-      '_fixtures',
-    ],
+    ignores: ['fixtures', '_fixtures'],
   },
   {
     files: ['src/**/*.ts'],
@@ -16,40 +13,4 @@ export default jsvEslintConfig(
       'perfectionist/sort-objects': 'error',
     },
   },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-)
+);

@@ -1,6 +1,6 @@
-import type { FlatGitignoreOptions } from 'eslint-config-flat-gitignore'
-import type { ParserOptions } from '@typescript-eslint/parser'
-import type { Linter } from 'eslint'
+import type { FlatGitignoreOptions } from 'eslint-config-flat-gitignore';
+import type { ParserOptions } from '@typescript-eslint/parser';
+import type { Linter } from 'eslint';
 import type {
   EslintCommentsRules,
   EslintRules,
@@ -17,45 +17,47 @@ import type {
   VitestRules,
   VueRules,
   YmlRules,
-} from '@antfu/eslint-define-config'
-import type { RuleOptions as JSDocRules } from '@eslint-types/jsdoc/types'
-import type { RuleOptions as TypeScriptRules } from '@eslint-types/typescript-eslint/types'
-import type { RuleOptions as UnicornRules } from '@eslint-types/unicorn/types'
-import type { Rules as AntfuRules } from 'eslint-plugin-antfu'
+} from '@antfu/eslint-define-config';
+import type { RuleOptions as JSDocRules } from '@eslint-types/jsdoc/types';
+import type { RuleOptions as TypeScriptRules } from '@eslint-types/typescript-eslint/types';
+import type { RuleOptions as UnicornRules } from '@eslint-types/unicorn/types';
+import type { Rules as AntfuRules } from 'eslint-plugin-antfu';
 
 export type WrapRuleConfig<T extends { [key: string]: any }> = {
-  [K in keyof T]: T[K] extends RuleConfig ? T[K] : RuleConfig<T[K]>
-}
+  [K in keyof T]: T[K] extends RuleConfig ? T[K] : RuleConfig<T[K]>;
+};
 
-export type Awaitable<T> = T | Promise<T>
+export type Awaitable<T> = T | Promise<T>;
 
 export type Rules = WrapRuleConfig<
   MergeIntersection<
     RenamePrefix<TypeScriptRules, '@typescript-eslint/', 'ts/'> &
-    RenamePrefix<VitestRules, 'vitest/', 'test/'> &
-    RenamePrefix<YmlRules, 'yml/', 'yaml/'> &
-    RenamePrefix<NRules, 'n/', 'node/'> &
-    Prefix<AntfuRules, 'antfu/'> &
-    ReactHooksRules &
-    ReactRules &
-    JSDocRules &
-    ImportRules &
-    EslintRules &
-    JsoncRules &
-    VueRules &
-    UnicornRules &
-    EslintCommentsRules &
-    {
-      'test/no-only-tests': RuleConfig<[]>
-    }
+      RenamePrefix<VitestRules, 'vitest/', 'test/'> &
+      RenamePrefix<YmlRules, 'yml/', 'yaml/'> &
+      RenamePrefix<NRules, 'n/', 'node/'> &
+      Prefix<AntfuRules, 'antfu/'> &
+      ReactHooksRules &
+      ReactRules &
+      JSDocRules &
+      ImportRules &
+      EslintRules &
+      JsoncRules &
+      VueRules &
+      UnicornRules &
+      EslintCommentsRules & {
+        'test/no-only-tests': RuleConfig<[]>;
+      }
   >
->
+>;
 
-export type FlatConfigItem = Omit<FlatESLintConfigItem<Rules, false>, 'plugins'> & {
+export type FlatConfigItem = Omit<
+  FlatESLintConfigItem<Rules, false>,
+  'plugins'
+> & {
   /**
    * Custom name of each config item
    */
-  name?: string
+  name?: string;
 
   // Relax plugins type limitation, as most of the plugins did not have correct type info yet.
   /**
@@ -63,16 +65,16 @@ export type FlatConfigItem = Omit<FlatESLintConfigItem<Rules, false>, 'plugins'>
    *
    * @see [Using plugins in your configuration](https://eslint.org/docs/latest/user-guide/configuring/configuration-files-new#using-plugins-in-your-configuration)
    */
-  plugins?: Record<string, any>
-}
+  plugins?: Record<string, any>;
+};
 
-export type UserConfigItem = FlatConfigItem | Linter.FlatConfig
+export type UserConfigItem = FlatConfigItem | Linter.FlatConfig;
 
 export interface OptionsFiles {
   /**
    * Override the `files` option to provide custom globs.
    */
-  files?: string[]
+  files?: string[];
 }
 
 export interface OptionsComponentExts {
@@ -82,14 +84,14 @@ export interface OptionsComponentExts {
    * @example ['vue']
    * @default []
    */
-  componentExts?: string[]
+  componentExts?: string[];
 }
 
 export interface OptionsTypeScriptParserOptions {
   /**
    * Additional parser options for TypeScript.
    */
-  parserOptions?: Partial<ParserOptions>
+  parserOptions?: Partial<ParserOptions>;
 }
 
 export interface OptionsTypeScriptWithTypes {
@@ -97,22 +99,20 @@ export interface OptionsTypeScriptWithTypes {
    * When this options is provided, type aware rules will be enabled.
    * @see https://typescript-eslint.io/linting/typed-linting/
    */
-  tsconfigPath?: string | string[]
+  tsconfigPath?: string | string[];
 }
 
 export interface OptionsHasTypeScript {
-  typescript?: boolean
+  typescript?: boolean;
 }
 
-
 export interface OptionsOverrides {
-  overrides?: FlatConfigItem['rules']
+  overrides?: FlatConfigItem['rules'];
 }
 
 export interface OptionsIsInEditor {
-  isInEditor?: boolean
+  isInEditor?: boolean;
 }
-
 
 export interface OptionsConfig extends OptionsComponentExts {
   /**
@@ -123,7 +123,7 @@ export interface OptionsConfig extends OptionsComponentExts {
    * @see https://github.com/antfu/eslint-config-flat-gitignore
    * @default true
    */
-  gitignore?: boolean | FlatGitignoreOptions
+  gitignore?: boolean | FlatGitignoreOptions;
 
   /**
    * Enable TypeScript support.
@@ -132,7 +132,10 @@ export interface OptionsConfig extends OptionsComponentExts {
    *
    * @default auto-detect based on the dependencies
    */
-  typescript?: boolean | OptionsTypeScriptWithTypes | OptionsTypeScriptParserOptions
+  typescript?:
+    | boolean
+    | OptionsTypeScriptWithTypes
+    | OptionsTypeScriptParserOptions;
 
   /**
    * Enable JSX related rules.
@@ -140,42 +143,42 @@ export interface OptionsConfig extends OptionsComponentExts {
    *
    * @default true
    */
-  jsx?: boolean
+  jsx?: boolean;
 
   /**
    * Enable test support.
    *
    * @default true
    */
-  test?: boolean
+  test?: boolean;
 
   /**
    * Enable Vue support.
    *
    * @default auto-detect based on the dependencies
    */
-  vue?: boolean
+  vue?: boolean;
 
   /**
    * Enable JSONC support.
    *
    * @default true
    */
-  jsonc?: boolean
+  jsonc?: boolean;
 
   /**
    * Enable YAML support.
    *
    * @default true
    */
-  yaml?: boolean
+  yaml?: boolean;
 
   /**
    * Enable Markdown support.
    *
    * @default true
    */
-  markdown?: boolean
+  markdown?: boolean;
 
   /**
    * Enable react rules.
@@ -187,33 +190,32 @@ export interface OptionsConfig extends OptionsComponentExts {
    *
    * @default false
    */
-  react?: boolean
+  react?: boolean;
 
   /**
    * Control to disable some rules in editors.
    * @default auto-detect based on the process.env
    */
-  isInEditor?: boolean
+  isInEditor?: boolean;
 
   /**
    * Enable prettier rules.
    * @default true
    */
-  prettier?: boolean
-
+  prettier?: boolean;
 
   /**
    * Provide overrides for rules for each integration.
    */
   overrides?: {
-    javascript?: FlatConfigItem['rules']
-    typescript?: FlatConfigItem['rules']
-    test?: FlatConfigItem['rules']
-    vue?: FlatConfigItem['rules']
-    jsonc?: FlatConfigItem['rules']
-    markdown?: FlatConfigItem['rules']
-    yaml?: FlatConfigItem['rules']
-    react?: FlatConfigItem['rules']
-    prettier?: FlatConfigItem['rules']
-  }
+    javascript?: FlatConfigItem['rules'];
+    typescript?: FlatConfigItem['rules'];
+    test?: FlatConfigItem['rules'];
+    vue?: FlatConfigItem['rules'];
+    jsonc?: FlatConfigItem['rules'];
+    markdown?: FlatConfigItem['rules'];
+    yaml?: FlatConfigItem['rules'];
+    react?: FlatConfigItem['rules'];
+    prettier?: FlatConfigItem['rules'];
+  };
 }

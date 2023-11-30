@@ -7,5 +7,3 @@ export default {
   arrowParens: 'always',
   semi: true,
 };
-
-

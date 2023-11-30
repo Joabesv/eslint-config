@@ -1,22 +1,29 @@
-import process from 'node:process'
-import type { FlatConfigItem, OptionsComponentExts, OptionsFiles, OptionsOverrides, OptionsTypeScriptParserOptions, OptionsTypeScriptWithTypes } from '../../types'
-import { GLOB_SRC } from '../../globs'
-import { pluginAntfu } from '../../plugins'
-import { interopDefault, renameRules, toArray } from '../../utils'
+import process from 'node:process';
+import type {
+  FlatConfigItem,
+  OptionsComponentExts,
+  OptionsFiles,
+  OptionsOverrides,
+  OptionsTypeScriptParserOptions,
+  OptionsTypeScriptWithTypes,
+} from '../../types';
+import { GLOB_SRC } from '../../globs';
+import { pluginAntfu } from '../../plugins';
+import { interopDefault, renameRules, toArray } from '../../utils';
 
 export async function typescript(
-  options: OptionsFiles & OptionsComponentExts & OptionsOverrides & OptionsTypeScriptWithTypes & OptionsTypeScriptParserOptions = {},
+  options: OptionsFiles &
+    OptionsComponentExts &
+    OptionsOverrides &
+    OptionsTypeScriptWithTypes &
+    OptionsTypeScriptParserOptions = {},
 ): Promise<FlatConfigItem[]> {
-  const {
-    componentExts = [],
-    overrides = {},
-    parserOptions = {},
-  } = options
+  const { componentExts = [], overrides = {}, parserOptions = {} } = options;
 
   const files = options.files ?? [
     GLOB_SRC,
-    ...componentExts.map(ext => `**/*.${ext}`),
-  ]
+    ...componentExts.map((ext) => `**/*.${ext}`),
+  ];
 
   const typeAwareRules: FlatConfigItem['rules'] = {
     'dot-notation': 'off',
@@ -38,19 +45,16 @@ export async function typescript(
     'ts/restrict-plus-operands': 'error',
     'ts/restrict-template-expressions': 'error',
     'ts/unbound-method': 'error',
-  }
+  };
 
   const tsconfigPath = options?.tsconfigPath
     ? toArray(options.tsconfigPath)
-    : undefined
+    : undefined;
 
-  const [
-    pluginTs,
-    parserTs,
-  ] = await Promise.all([
+  const [pluginTs, parserTs] = await Promise.all([
     interopDefault(import('@typescript-eslint/eslint-plugin')),
     interopDefault(import('@typescript-eslint/parser')),
-  ] as const)
+  ] as const);
 
   return [
     {
@@ -66,15 +70,15 @@ export async function typescript(
       languageOptions: {
         parser: parserTs,
         parserOptions: {
-          extraFileExtensions: componentExts.map(ext => `.${ext}`),
+          extraFileExtensions: componentExts.map((ext) => `.${ext}`),
           sourceType: 'module',
-          ...tsconfigPath
+          ...(tsconfigPath
             ? {
                 project: tsconfigPath,
                 tsconfigRootDir: process.cwd(),
               }
-            : {},
-          ...parserOptions as any,
+            : {}),
+          ...(parserOptions as any),
         },
       },
       name: 'joabesv:typescript:rules',
@@ -98,10 +102,16 @@ export async function typescript(
         'no-redeclare': 'off',
         'no-use-before-define': 'off',
         'no-useless-constructor': 'off',
-        'ts/ban-ts-comment': ['error', { 'ts-ignore': 'allow-with-description' }],
+        'ts/ban-ts-comment': [
+          'error',
+          { 'ts-ignore': 'allow-with-description' },
+        ],
         'ts/ban-types': ['error', { types: { Function: false } }],
         'ts/consistent-type-definitions': ['error', 'interface'],
-        'ts/consistent-type-imports': ['error', { disallowTypeAnnotations: false, prefer: 'type-imports' }],
+        'ts/consistent-type-imports': [
+          'error',
+          { disallowTypeAnnotations: false, prefer: 'type-imports' },
+        ],
         'ts/no-dupe-class-members': 'error',
         'ts/no-dynamic-delete': 'off',
         'ts/no-explicit-any': 'off',
@@ -113,13 +123,16 @@ export async function typescript(
         'ts/no-redeclare': 'error',
         'ts/no-require-imports': 'error',
         'ts/no-unused-vars': 'off',
-        'ts/no-use-before-define': ['error', { classes: false, functions: false, variables: true }],
+        'ts/no-use-before-define': [
+          'error',
+          { classes: false, functions: false, variables: true },
+        ],
         'ts/no-useless-constructor': 'off',
         'ts/prefer-ts-expect-error': 'error',
         'ts/triple-slash-reference': 'off',
         'ts/unified-signatures': 'off',
 
-        ...tsconfigPath ? typeAwareRules : {},
+        ...(tsconfigPath ? typeAwareRules : {}),
         ...overrides,
       },
     },
@@ -148,5 +161,5 @@ export async function typescript(
         'ts/no-var-requires': 'off',
       },
     },
-  ]
+  ];
 }

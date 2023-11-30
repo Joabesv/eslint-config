@@ -1,4 +1,4 @@
-import type { FlatConfigItem } from '../types'
+import type { FlatConfigItem } from '../types';
 
 /**
  * Sort package.json
@@ -81,18 +81,13 @@ export async function sortPackageJson(): Promise<FlatConfigItem[]> {
             pathPattern: '^pnpm.overrides$',
           },
           {
-            order: [
-              'types',
-              'import',
-              'require',
-              'default',
-            ],
+            order: ['types', 'import', 'require', 'default'],
             pathPattern: '^exports.*$',
           },
         ],
       },
     },
-  ]
+  ];
 }
 /**
  * Sort tsconfig.json
@@ -223,5 +218,5 @@ export function sortTsconfig(): FlatConfigItem[] {
         ],
       },
     },
-  ]
+  ];
 }
