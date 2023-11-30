@@ -39,7 +39,7 @@ async function createMockDir() {
 beforeEach(async () => await createMockDir());
 afterAll(async () => await rm(genPath, { recursive: true, force: true }));
 
-it.skip('package.json updated', async () => {
+it('package.json updated', async () => {
   const { stdout } = await run();
   const path = join(genPath, 'package.json');
   const pkgContent = JSON.parse(await readFile(path, 'utf8'));
