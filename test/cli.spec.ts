@@ -1,6 +1,6 @@
 import { join } from 'node:path';
 import { readFile, rm, writeFile } from 'node:fs/promises';
-import { execa } from 'execa';
+import execa from 'execa';
 import { ensureDir } from 'fs-extra';
 import { afterAll, beforeEach, expect, it } from 'vitest';
 
@@ -13,7 +13,7 @@ async function run(
     SKIP_GIT_CHECK: '1',
   },
 ) {
-  return execa(`node`, [CLI_PATH, 'migrate'], {
+  return execa.execa(`node`, [CLI_PATH, 'migrate'], {
     cwd: genPath,
     env: {
       ...process.env,
