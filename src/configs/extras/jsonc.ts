@@ -20,7 +20,7 @@ export async function jsonc(
 
   return [
     {
-      name: 'antfu:jsonc:setup',
+      name: 'joabesv:jsonc:setup',
       plugins: {
         jsonc: pluginJsonc as any,
       },
@@ -30,7 +30,7 @@ export async function jsonc(
       languageOptions: {
         parser: parserJsonc,
       },
-      name: 'antfu:jsonc:rules',
+      name: 'joabesv:jsonc:rules',
       rules: {
         'jsonc/array-bracket-spacing': ['error', 'never'],
         'jsonc/comma-dangle': ['error', 'never'],

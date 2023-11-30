@@ -4,7 +4,7 @@ import type { FlatConfigItem } from '../../types'
 export async function jsdoc(): Promise<FlatConfigItem[]> {
   return [
     {
-      name: 'antfu:jsdoc',
+      name: 'joabesv:jsdoc',
       plugins: {
         // @ts-expect-error missing types
         jsdoc: await interopDefault(import('eslint-plugin-jsdoc')),

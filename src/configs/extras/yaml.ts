@@ -20,7 +20,7 @@ export async function yaml(
 
   return [
     {
-      name: 'antfu:yaml:setup',
+      name: 'joabesv:yaml:setup',
       plugins: {
         yaml: pluginYaml,
       },
@@ -30,7 +30,7 @@ export async function yaml(
       languageOptions: {
         parser: parserYaml,
       },
-      name: 'antfu:yaml:rules',
+      name: 'joabesv:yaml:rules',
       rules: {
 
         'yaml/block-mapping': 'error',

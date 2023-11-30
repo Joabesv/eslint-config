@@ -13,7 +13,7 @@ export async function markdown(
 
   return [
     {
-      name: 'antfu:markdown:setup',
+      name: 'joabesv:markdown:setup',
       plugins: {
         // @ts-expect-error missing types
         markdown: await interopDefault(import('eslint-plugin-markdown')),
@@ -21,7 +21,7 @@ export async function markdown(
     },
     {
       files,
-      name: 'antfu:markdown:processor',
+      name: 'joabesv:markdown:processor',
       processor: 'markdown/markdown',
     },
     {
@@ -36,7 +36,7 @@ export async function markdown(
           },
         },
       },
-      name: 'antfu:markdown:rules',
+      name: 'joabesv:markdown:rules',
       rules: {
         'antfu/no-ts-export-equal': 'off',
 

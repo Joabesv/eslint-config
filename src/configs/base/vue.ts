@@ -22,7 +22,7 @@ export async function vue(
 
   return [
     {
-      name: 'antfu:vue:setup',
+      name: 'joabesv:vue:setup',
       plugins: {
         vue: pluginVue,
       },
@@ -42,7 +42,7 @@ export async function vue(
           sourceType: 'module',
         },
       },
-      name: 'antfu:vue:rules',
+      name: 'joabesv:vue:rules',
       processor: pluginVue.processors['.vue'],
       rules: {
         ...pluginVue.configs.base.rules,

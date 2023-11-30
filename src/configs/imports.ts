@@ -4,7 +4,7 @@ import { pluginAntfu, pluginImport } from '../plugins'
 export async function imports(): Promise<FlatConfigItem[]> {
   return [
     {
-      name: 'antfu:imports',
+      name: 'joabesv:imports',
       plugins: {
         antfu: pluginAntfu,
         import: pluginImport,

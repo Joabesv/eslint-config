@@ -1,10 +1,10 @@
-import type { FlatConfigItem } from '../types'
-import { pluginUnicorn } from '../plugins'
+import type { FlatConfigItem } from '../types';
+import { pluginUnicorn } from '../plugins';
 
 export async function unicorn(): Promise<FlatConfigItem[]> {
   return [
     {
-      name: 'antfu:unicorn',
+      name: 'joabesv:unicorn',
       plugins: {
         unicorn: pluginUnicorn,
       },
@@ -37,5 +37,5 @@ export async function unicorn(): Promise<FlatConfigItem[]> {
         'unicorn/throw-new-error': 'error',
       },
     },
-  ]
+  ];
 }
