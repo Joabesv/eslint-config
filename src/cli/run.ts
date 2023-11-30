@@ -1,13 +1,13 @@
 /* eslint-disable no-console */
-import fs from 'node:fs';
-import fsp from 'node:fs/promises';
-import path from 'node:path';
-import process from 'node:process';
-import prompts from 'prompts';
+import { existsSync, readdirSync } from 'node:fs';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import prompts, { type Answers } from 'prompts';
 import c from 'picocolors';
 
 // @ts-expect-error missing types
 import parse from 'parse-gitignore';
+
 import {
   ARROW,
   CHECK,
@@ -31,11 +31,11 @@ export async function run(options: RuleOptions = {}) {
 
   const cwd = process.cwd();
 
-  const pathFlatConfig = path.join(cwd, 'eslint.config.js');
-  const pathPackageJSON = path.join(cwd, 'package.json');
-  const pathESLintIngore = path.join(cwd, '.eslintignore');
+  const pathFlatConfig = join(cwd, 'eslint.config.js');
+  const pathPackageJSON = join(cwd, 'package.json');
+  const pathESLintIgnore = join(cwd, '.eslintignore');
 
-  if (fs.existsSync(pathFlatConfig)) {
+  if (existsSync(pathFlatConfig)) {
     console.log(
       c.yellow(
         `${WARN} eslint.config.js already exists, migration wizard exited.`,
@@ -50,24 +50,24 @@ export async function run(options: RuleOptions = {}) {
     );
 
   // Update package.json
-  console.log(c.cyan(`${ARROW} bumping @antfu/eslint-config to v${version}`));
-  const pkgContent = await fsp.readFile(pathPackageJSON, 'utf-8');
+  console.log(c.cyan(`${ARROW} bumping @joabesv/eslint-config to v${version}`));
+  const pkgContent = await readFile(pathPackageJSON, 'utf-8');
   const pkg: Record<string, any> = JSON.parse(pkgContent);
 
   pkg.devDependencies ??= {};
-  pkg.devDependencies['@antfu/eslint-config'] = `^${version}`;
+  pkg.devDependencies['@joabesv/eslint-config'] = `^${version}`;
 
   if (!pkg.devDependencies.eslint) pkg.devDependencies.eslint = eslintVersion;
 
-  await fsp.writeFile(pathPackageJSON, JSON.stringify(pkg, null, 2));
+  await writeFile(pathPackageJSON, JSON.stringify(pkg, null, 2));
   console.log(c.green(`${CHECK} changes wrote to package.json`));
 
   // End update package.json
   // Update eslint files
   const eslintIgnores: string[] = [];
-  if (fs.existsSync(pathESLintIngore)) {
+  if (existsSync(pathESLintIgnore)) {
     console.log(c.cyan(`${ARROW} migrating existing .eslintignore`));
-    const content = await fsp.readFile(pathESLintIngore, 'utf-8');
+    const content = await readFile(pathESLintIgnore, 'utf-8');
     const parsed = parse(content);
     const globs = parsed.globs();
 
@@ -82,27 +82,27 @@ export async function run(options: RuleOptions = {}) {
 
   let eslintConfigContent: string = '';
 
-  const antfuConfig = `${
+  const joabesvConfig = `${
     eslintIgnores.length ? `ignores: ${JSON.stringify(eslintIgnores)}` : ''
   }`;
   if (pkg.type === 'module') {
     eslintConfigContent = `
-import antfu from '@antfu/eslint-config'
+import { jsvEslintConfig } from '@joabesv/eslint-config'
 
-export default antfu({\n${antfuConfig}\n})
+export default jsvEslintConfig({\n${joabesvConfig}\n})
 `.trimStart();
   } else {
     eslintConfigContent = `
-const antfu = require('@antfu/eslint-config').default
+const jsvEslintConfig = require('@joabesv/eslint-config').default
 
-module.exports = antfu({\n${antfuConfig}\n})
+module.exports = jsvEslintConfig({\n${joabesvConfig}\n})
 `.trimStart();
   }
 
-  await fsp.writeFile(pathFlatConfig, eslintConfigContent);
+  await writeFile(pathFlatConfig, eslintConfigContent);
   console.log(c.green(`${CHECK} created eslint.config.js`));
 
-  const files = fs.readdirSync(cwd);
+  const files = readdirSync(cwd);
   const legacyConfig: string[] = [];
   files.forEach((file) => {
     if (file.includes('eslint') || file.includes('prettier'))
@@ -115,7 +115,7 @@ module.exports = antfu({\n${antfuConfig}\n})
 
   // End update eslint files
   // Update .vscode/settings.json
-  let promptResult: prompts.Answers<'updateVscodeSettings'> = {
+  let promptResult: Answers<'updateVscodeSettings'> = {
     updateVscodeSettings: true,
   };
 
@@ -142,17 +142,17 @@ module.exports = antfu({\n${antfuConfig}\n})
   }
 
   if (promptResult?.updateVscodeSettings ?? true) {
-    const dotVscodePath: string = path.join(cwd, '.vscode');
-    const settingsPath: string = path.join(dotVscodePath, 'settings.json');
+    const dotVscodePath = join(cwd, '.vscode');
+    const settingsPath = join(dotVscodePath, 'settings.json');
 
-    if (!fs.existsSync(dotVscodePath))
-      await fsp.mkdir(dotVscodePath, { recursive: true });
+    if (!existsSync(dotVscodePath))
+      await mkdir(dotVscodePath, { recursive: true });
 
-    if (!fs.existsSync(settingsPath)) {
-      await fsp.writeFile(settingsPath, `{${vscodeSettingsString}}\n`, 'utf-8');
+    if (!existsSync(settingsPath)) {
+      await writeFile(settingsPath, `{${vscodeSettingsString}}\n`, 'utf-8');
       console.log(c.green(`${CHECK} created .vscode/settings.json`));
     } else {
-      let settingsContent = await fsp.readFile(settingsPath, 'utf8');
+      let settingsContent = await readFile(settingsPath, 'utf8');
 
       settingsContent = settingsContent.trim().replace(/\s*}$/, '');
       settingsContent +=
@@ -161,7 +161,7 @@ module.exports = antfu({\n${antfuConfig}\n})
           : ',';
       settingsContent += `${vscodeSettingsString}}\n`;
 
-      await fsp.writeFile(settingsPath, settingsContent, 'utf-8');
+      await writeFile(settingsPath, settingsContent, 'utf-8');
       console.log(c.green(`${CHECK} updated .vscode/settings.json`));
     }
   }

@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-import process from 'node:process';
 import c from 'picocolors';
 import { hideBin } from 'yargs/helpers';
 import yargs from 'yargs';
@@ -7,11 +6,11 @@ import { run } from './run';
 import { CROSS, version } from './constants';
 
 function header() {
-  console.log(`\n${c.green(`@antfu/eslint-config `)}${c.dim(`v${version}`)}`);
+  console.log(`\n${c.green(`@joabesv/eslint-config `)}${c.dim(`v${version}`)}`);
 }
 
 const instance = yargs(hideBin(process.argv))
-  .scriptName('@antfu/eslint-config')
+  .scriptName('@joabesv/eslint-config')
   .usage('')
   .command(
     '*',

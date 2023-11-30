@@ -13,7 +13,6 @@ export const vscodeSettingsString = `
   // Enable the ESlint flat config support
   "eslint.experimental.useFlatConfig": true,
 
-  // Disable the default formatter, use eslint instead
   "prettier.enable": true,
   "editor.formatOnSave": false,
 
