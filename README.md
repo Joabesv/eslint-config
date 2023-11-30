@@ -1,6 +1,6 @@
 # @Joabesv/eslint-config
 
-[![npm](https://img.shields.io/npm/v/@antfu/eslint-config?color=444&label=)](https://npmjs.com/package/@antfu/eslint-config) [![code style](https://antfu.me/badge-code-style.svg)](https://github.com/antfu/eslint-config)
+[![npm](https://img.shields.io/npm/v/@joabesv/eslint-config?color=444&label=)](https://npmjs.com/package/@joabesv/eslint-config) [![code style](https://antfu.me/badge-code-style.svg)](https://github.com/antfu/eslint-config)
 
 - Single quotes, no semi
 - Designed to work with TypeScript, JSX, Vue out-of-box
