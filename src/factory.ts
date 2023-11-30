@@ -12,6 +12,7 @@ import {
   markdown,
   node,
   perfectionist,
+  prettier,
   react,
   sortPackageJson,
   sortTsconfig,
@@ -19,7 +20,7 @@ import {
   typescript,
   unicorn,
   vue,
-  yaml,
+  yaml
 } from './configs'
 import { combine, interopDefault } from './utils'
 
@@ -85,6 +86,7 @@ export async function jsvEslintConfig(
 
     // Optional plugins (installed but not enabled by default)
     perfectionist(),
+    prettier(),
   )
 
   if (enableVue)
@@ -141,6 +143,12 @@ export async function jsvEslintConfig(
     configs.push(markdown({
       componentExts,
       overrides: overrides.markdown,
+    }))
+  }
+
+  if(options.prettier ?? true) {
+    configs.push(prettier({
+      overrides: overrides.prettier,
     }))
   }
 

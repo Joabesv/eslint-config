@@ -1,7 +1,7 @@
 // @ts-check
-import antfu from './dist/index.js'
+import { jsvEslintConfig } from './dist/index.js'
 
-export default antfu(
+export default jsvEslintConfig(
   {
     vue: true,
     typescript: true,
@@ -16,4 +16,40 @@ export default antfu(
       'perfectionist/sort-objects': 'error',
     },
   },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 )

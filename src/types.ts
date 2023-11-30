@@ -196,6 +196,13 @@ export interface OptionsConfig extends OptionsComponentExts {
   isInEditor?: boolean
 
   /**
+   * Enable prettier rules.
+   * @default true
+   */
+  prettier?: boolean
+
+
+  /**
    * Provide overrides for rules for each integration.
    */
   overrides?: {
@@ -207,5 +214,6 @@ export interface OptionsConfig extends OptionsComponentExts {
     markdown?: FlatConfigItem['rules']
     yaml?: FlatConfigItem['rules']
     react?: FlatConfigItem['rules']
+    prettier?: FlatConfigItem['rules']
   }
 }
