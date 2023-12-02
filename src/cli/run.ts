@@ -52,7 +52,7 @@ export async function run(options: RuleOptions = {}) {
   // Update package.json
   console.log(c.cyan(`${ARROW} bumping @joabesv/eslint-config to v${version}`));
   const pkgContent = await readFile(pathPackageJSON, 'utf-8');
-  const pkg: Record<string, any> = JSON.parse(pkgContent);
+  const pkg = JSON.parse(pkgContent);
 
   pkg.devDependencies ??= {};
   pkg.devDependencies['@joabesv/eslint-config'] = `^${version}`;

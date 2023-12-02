@@ -114,7 +114,12 @@ export async function typescript(
         ],
         'ts/no-dupe-class-members': 'error',
         'ts/no-dynamic-delete': 'off',
-        'ts/no-explicit-any': 'off',
+        'ts/no-explicit-any': [
+          'error',
+          {
+            fixToUnknown: true,
+          },
+        ],
         'ts/no-extraneous-class': 'off',
         'ts/no-import-type-side-effects': 'error',
         'ts/no-invalid-void-type': 'off',

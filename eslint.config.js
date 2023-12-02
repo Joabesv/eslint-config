@@ -11,6 +11,7 @@ export default jsvEslintConfig(
     files: ['src/**/*.ts'],
     rules: {
       'perfectionist/sort-objects': 'error',
+      'ts/no-explicit-any': 'off',
     },
   },
 );
